@@ -7,10 +7,10 @@ def checkRules(arr, rule) -> str:
 
     safe_count = 0
     for i in range(len(arr)):
-        testArray = arr[:i] + arr[i+1:]
         
-        if sequenceIsSafe(testArray, rule):
+        if not sequenceIsSafe(arr, rule):
             safe_count += 1
+            arr.remove(arr[i])
 
             if safe_count > 1:
                 return "unsafe"
@@ -58,4 +58,3 @@ def input(file) -> int:
     return safe_counter
 
 print(input("../inputs/day2.txt"))
-              
