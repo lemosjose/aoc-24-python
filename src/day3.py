@@ -30,16 +30,16 @@ def parseDoDontMul():
     
 #part A
 def parseMul(inputList):
-    sumArray = []
+    res = 0 
     
     for i in inputList:
         matches = re.finditer(r'mul\((\d+),(\d+)\)', i)
 
         for match in matches:
             x,y = map(int, (match.group(1), match.group(2)))
-            sumArray.append(x*y)
+            res += x*y
 
-    return sumArray
+    return res 
 
 def main():
 
@@ -47,10 +47,8 @@ def main():
     lines = [line.strip()
              for line in open("../inputs/day3.txt")]
 
-    #just a last resort if something gone wrong with the types while something was executing
-    answer = map(int, parseMul(lines))
-    #answer for part A
-    return(sum(answer))
+    #answer for part A and B
+    return(f"{parseMul(lines)} \n {parseDoDontMul()}")
 
 
 
@@ -59,5 +57,3 @@ def main():
 
 print(main())
 
-#partb
-print(parseDoDontMul())
