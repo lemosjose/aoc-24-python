@@ -1,60 +1,31 @@
-#site says i may be "unlucky because the part 2 is right for someone else, and i may be "unlucky". wtf."
+#contains only part A for the day
 
-def checkRules(arr, rule) -> str:
-
-    if sequenceIsSafe(arr, rule):
-        return "safe"
-
-    safe_count = 0
-    for i in range(len(arr)):
-        
-        if not sequenceIsSafe(arr, rule):
-            safe_count += 1
-            arr.remove(arr[i])
-
-            if safe_count > 1:
-                return "unsafe"
-
-        
-
-    return "safe" if safe_count == 1 else "unsafe"
+#thanks, lerax!
+def signum(x):
+    return (x > 0) - (x < 0)
 
 
-def sequenceIsSafe(arr, rule):
-    #i actually don't know if using this string check is the best way of taking apart each rule....
-    if rule == "increasing":
-        for i in range(len(arr) - 1):
-            diff = arr[i + 1] - arr[i]
-            if diff <= 0 or diff > 3:
-                return False
-        return True
-                
+def checkRules(line: list[int]):
+    levels = len(line) - 1
+    ruled = [
+        #will check if it's inscreasing or decreasing with signum
+        signum(a - b) if abs(a - b) <= 3 else 0
+        for a,b in zip(line, line[1:])
+    ]
+    return abs(sum(ruled)) == levels
     
-    elif rule == "decreasing":
-        for i in range(len(arr) - 1):
-            diff = arr[i] - arr[i + 1]
-            if diff <= 0 or diff > 3:
-                return False         
-        return True
-        
     
     
             
-def input(file) -> int:
-    safe_counter = 0
-    with open(file, 'r') as f:
-        for line in f:
-            arr = list(map(int, line.split()))
-            if arr[0] < arr[1]:
-                #echange checkRules and checkNewRules for checking the difference
-                if (checkRules(arr, "increasing")) == "safe":
-                        safe_counter += 1
-                    
-            elif arr[0] > arr[1]:
-                if (checkRules(arr, "decreasing")) == "safe":
-                        safe_counter += 1
-                    
+def main(file) -> int:
+            #filters the levels from each line to an int array
+    lines = [list(map(int, line.split()))
+             
+            for line in open(file).readlines()]
 
-    return safe_counter
+    return len(list(filter(checkRules, lines)))
+    
 
-print(input("../inputs/day2.txt"))
+
+print(main("../inputs/day2.txt"))
+
