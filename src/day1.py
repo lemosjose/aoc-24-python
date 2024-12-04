@@ -4,12 +4,11 @@ leftArray = []
 rightArray = []
 
 
-def input(file):
-    with open(file, 'r') as f:
-        for line in f:
-            left, right = map(int, line.split())
-            leftArray.append(left)
-            rightArray.append(right)
+def createArrays(input):
+    for line in input:
+        left, right = map(int, line.split())
+        leftArray.append(left)
+        rightArray.append(right)
             
 def calc(left, right):
     sumDifferences = 0
@@ -26,12 +25,19 @@ def similarity(left, right):
     return totalCount
         
 
-input("../inputs/day1.txt")
-leftArray, rightArray = sorted(leftArray), sorted(rightArray)
+lines = [line.strip()
+         for line in open("../inputs/day1.txt").readlines()]
+
+
+createArrays(lines)
+leftArray, rightArray = map(lambda x: sorted(x), (leftArray, rightArray))
+
 print(calc(leftArray, rightArray))
 counter_right = Counter(rightArray)
+
 print(similarity(leftArray, rightArray))
-    
+
+
 
             
         
